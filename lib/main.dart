@@ -1,4 +1,4 @@
-import 'package:age_calculator_front_end_mentor/views/calendar_view.dart';
+import 'package:age_calculator_front_end_mentor/views/home_view.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -7,6 +7,6 @@ void main() {
       colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       useMaterial3: true,
     ),
-    home: const CalendarView(),
+    home: const HomeView(),
   ));
 }

@@ -13,24 +13,14 @@ class CalendarController {
   final TextEditingController monthController = TextEditingController();
   final TextEditingController dayController = TextEditingController();
 
-  bool isInvalidMonth() => 0 >= calendar.month || calendar.month > 12;
+  bool isInvalidMonth() => 0 > calendar.month || calendar.month > 12;
 
-  bool isInvalidDay() => 0 >= calendar.day || calendar.day > 31;
+  bool isInvalidDay() => 0 > calendar.day || calendar.day > 31;
 
   bool isInvalidYear() =>
-      0 >= calendar.year || calendar.year > DateTime.now().year;
-
-  bool isInvalidDate() => isInvalidYear() || isInvalidDay() || isInvalidMonth();
+      0 > calendar.year || calendar.year > DateTime.now().year;
 
   Map<String, dynamic> calcDiff() {
-    if (isInvalidDate()) {
-      return {
-        'year': '--',
-        'month': '--',
-        'day': '--',
-      };
-    }
-
     DateTime now = DateTime.now();
 
     int yearsDiff = now.year - calendar.year;
@@ -44,6 +34,8 @@ class CalendarController {
     }
 
     if (daysDiff < 0) {
+      (monthsDiff > 1) ? monthsDiff-- : (monthsDiff = 12, yearsDiff--);
+      if (yearsDiff < 0) yearsDiff = 0;
       daysDiff = daysDiff.abs();
     }
 
@@ -51,6 +43,14 @@ class CalendarController {
       'year': yearsDiff,
       'month': monthsDiff,
       'day': daysDiff,
+    };
+  }
+
+  Map<String, dynamic> error() {
+    return {
+      'year': '--',
+      'month': '--',
+      'day': '--',
     };
   }
 }
