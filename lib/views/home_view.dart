@@ -6,17 +6,11 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-
     return Scaffold(
-      body: SizedBox(
-          width: width,
-          height: height,
-          child: ColoredBox(
-            color: const HSLColor.fromAHSL(1, 0, 0, .86).toColor(),
-            child: Center(child: CalendarComponent()),
-          )),
+      body: ColoredBox(
+        color: const HSLColor.fromAHSL(1, 0, 0, .86).toColor(),
+        child: const Center(child: CalendarComponent()),
+      ),
     );
   }
 }

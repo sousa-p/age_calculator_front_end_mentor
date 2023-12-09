@@ -1,7 +1,10 @@
 import 'package:age_calculator_front_end_mentor/controllers/calendar_controller.dart';
 import 'package:age_calculator_front_end_mentor/views/breakpoints.dart';
+import 'package:age_calculator_front_end_mentor/views/components/diff_line_component.dart';
+import 'package:age_calculator_front_end_mentor/views/components/line_component.dart';
 import 'package:flutter/material.dart';
 import 'package:age_calculator_front_end_mentor/views/components/input_calendar_component.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CalendarComponent extends StatefulWidget {
   const CalendarComponent({super.key});
@@ -24,25 +27,26 @@ class _CalendarComponentState extends State<CalendarComponent> {
       widthFactor: (width < brk.mobile)
           ? .90
           : (width < brk.tablet)
-              ? .8
-              : 850 / width,
+              ? .75
+              : 700 / width,
       heightFactor: 600 / height,
       child: ClipRRect(
         borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(15),
-            bottomLeft: Radius.circular(15),
-            topRight: Radius.circular(15),
-            bottomRight: Radius.circular(180)),
+            topLeft: Radius.circular(30),
+            bottomLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+            bottomRight: Radius.circular(150)),
         child: ColoredBox(
           color: Colors.white,
           child: Padding(
-            padding: const EdgeInsets.all(32),
+            padding: const EdgeInsets.all(48),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Form(
                     key: _formKey,
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Wrap(
                           spacing: 16,
@@ -50,7 +54,7 @@ class _CalendarComponentState extends State<CalendarComponent> {
                             InputCalendarComponent(
                                 label: 'Day',
                                 placeholder: 'dd',
-                                validator: controller.isInvalidDay,
+                                validator: controller.isInvalidDate,
                                 controller: controller.dayController,
                                 onChanged: (value) {
                                   setState(() {
@@ -61,7 +65,7 @@ class _CalendarComponentState extends State<CalendarComponent> {
                             InputCalendarComponent(
                                 label: 'Month',
                                 placeholder: 'mm',
-                                validator: controller.isInvalidMonth,
+                                validator: controller.isInvalidDate,
                                 controller: controller.monthController,
                                 onChanged: (value) {
                                   setState(() {
@@ -71,8 +75,8 @@ class _CalendarComponentState extends State<CalendarComponent> {
                                 }),
                             InputCalendarComponent(
                                 label: 'Year',
-                                placeholder: 'yy',
-                                validator: controller.isInvalidYear,
+                                placeholder: 'yyyy',
+                                validator: controller.isInvalidDate,
                                 controller: controller.yearController,
                                 onChanged: (value) {
                                   setState(() {
@@ -82,23 +86,51 @@ class _CalendarComponentState extends State<CalendarComponent> {
                                 }),
                           ],
                         ),
-                        ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                controller.diff =
-                                    (_formKey.currentState!.validate())
-                                        ? controller.calcDiff()
-                                        : controller.error();
-                              });
-                            },
-                            child: const Text('Calcular')),
+                        const SizedBox(
+                          height: 32,
+                        ),
+                        Stack(
+                          children: [
+                            const LineComponent(width: 500),
+                            Row(
+                              mainAxisAlignment: (width > brk.tablet)
+                                  ? MainAxisAlignment.end
+                                  : MainAxisAlignment.center,
+                              children: [
+                                ElevatedButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        controller.diff =
+                                            (_formKey.currentState!.validate())
+                                                ? controller.calcDiff()
+                                                : controller.error();
+                                      });
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        shape: const CircleBorder(),
+                                        padding: const EdgeInsets.all(16),
+                                        backgroundColor:
+                                            const HSLColor.fromAHSL(
+                                                    1, 259, 1, .65)
+                                                .toColor()),
+                                    child: SizedBox(
+                                      width: 32,
+                                      child: SvgPicture.asset(
+                                        'assets/images/icon-arrow.svg',
+                                        semanticsLabel: 'Calculate',
+                                      ),
+                                    )),
+                              ],
+                            ),
+                          ],
+                        ),
                       ],
                     )),
                 Column(
                   children: [
-                    Text('${controller.diff['day']} days'),
-                    Text('${controller.diff['month']} months'),
-                    Text('${controller.diff['year']} years'),
+                    DiffLine(value: controller.diff.years, label: 'years'),
+                    DiffLine(value: controller.diff.months, label: 'months'),
+                    DiffLine(value: controller.diff.days, label: 'days'),
                   ],
                 )
               ],

@@ -1,31 +1,42 @@
 import 'package:age_calculator_front_end_mentor/models/calendar_model.dart';
+import 'package:age_calculator_front_end_mentor/models/diff_model.dart';
 import 'package:flutter/material.dart';
 
 class CalendarController {
   final CalendarModel calendar = CalendarModel(month: 0, year: 0, day: 0);
-  late Map<String, dynamic> diff = {
-    'year': '--',
-    'month': '--',
-    'day': '--',
-  };
+  late DiffModel diff = error();
 
   final TextEditingController yearController = TextEditingController();
   final TextEditingController monthController = TextEditingController();
   final TextEditingController dayController = TextEditingController();
 
-  bool isInvalidMonth() => 0 > calendar.month || calendar.month > 12;
+  String parsedDateToString() {
+    String year = calendar.year.toString();
+    String month = calendar.month.toString().padLeft(2, '0');
+    String day = calendar.day.toString().padLeft(2, '0');
 
-  bool isInvalidDay() => 0 > calendar.day || calendar.day > 31;
+    return '$year-$month-$day';
+  }
 
-  bool isInvalidYear() =>
-      0 > calendar.year || calendar.year > DateTime.now().year;
+  bool isInvalidDate() {
+    try {
+      String dateString = parsedDateToString();
+      DateTime date = DateTime.parse(dateString);
 
-  Map<String, dynamic> calcDiff() {
+      bool isInvalid = date.year.toString() != dateString.substring(0, 4) ||
+          date.month.toString().padLeft(2, '0') != dateString.substring(5, 7) ||
+          date.day.toString().padLeft(2, '0') != dateString.substring(8, 10);
+
+      return isInvalid;
+    } catch (_) {
+      return true;
+    }
+  }
+
+  DiffModel calcDiff() {
     DateTime now = DateTime.now();
-
     int yearsDiff = now.year - calendar.year;
     int monthsDiff = now.month - calendar.month;
-
     int daysDiff = now.day - calendar.day;
 
     if (monthsDiff < 0) {
@@ -39,18 +50,13 @@ class CalendarController {
       daysDiff = daysDiff.abs();
     }
 
-    return {
-      'year': yearsDiff,
-      'month': monthsDiff,
-      'day': daysDiff,
-    };
+    return DiffModel(
+        months: monthsDiff.toString().padLeft(2, '0'),
+        days: daysDiff.toString().padLeft(2, '0'),
+        years: yearsDiff.toString().padLeft(2, '0'));
   }
 
-  Map<String, dynamic> error() {
-    return {
-      'year': '--',
-      'month': '--',
-      'day': '--',
-    };
+  DiffModel error() {
+    return DiffModel(months: '--', days: '--', years: '--');
   }
 }

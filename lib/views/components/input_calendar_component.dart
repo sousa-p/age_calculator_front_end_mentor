@@ -22,7 +22,7 @@ class InputCalendarComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 100,
+      width: 125,
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(
           label.toUpperCase(),
@@ -37,6 +37,7 @@ class InputCalendarComponent extends StatelessWidget {
             inputFormatters: [_numberFormatter],
             onChanged: onChanged,
             decoration: InputDecoration(
+                errorStyle: const TextStyle(fontSize: 0),
                 hintText: placeholder.toUpperCase(),
                 border: OutlineInputBorder(
                     borderSide: const BorderSide(),
