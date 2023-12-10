@@ -7,14 +7,9 @@ This is a solution to the [Age calculator app challenge on Frontend Mentor](http
 - [Overview](#overview)
   - [The challenge](#the-challenge)
   - [Screenshot](#screenshot)
-  - [Links](#links)
 - [My process](#my-process)
   - [Built with](#built-with)
   - [What I learned](#what-i-learned)
-  - [Continued development](#continued-development)
-  - [Useful resources](#useful-resources)
-- [Author](#author)
-- [Acknowledgments](#acknowledgments)
 
 **Note: Delete this note and update the table of contents based on what sections you keep.**
 
@@ -36,6 +31,15 @@ Users should be able to:
 - **Bonus**: See the age numbers animate to their final number when the form is submitted
 
 ### Screenshot
+
+#### Desktop
+![image](https://github.com/sousa-p/age_calculator_front_end_mentor/assets/97417230/208c2d8f-7da2-4fa9-bff8-a58870b6e315)
+
+#### Tablet
+![image](https://github.com/sousa-p/age_calculator_front_end_mentor/assets/97417230/538658cc-5bba-467d-b7e1-3b3d7e20dcb5)
+
+#### Mobile
+![image](https://github.com/sousa-p/age_calculator_front_end_mentor/assets/97417230/f29c6a53-8f20-467a-83e4-10e7e2837ae8)
 
 
 ## My process
